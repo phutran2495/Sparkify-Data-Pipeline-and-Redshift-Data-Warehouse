@@ -32,8 +32,7 @@ Port: Enter 5439.
 
 ## Project Strucute
 * README: Current file, holds instructions and documentation of the project
-* dags/sparkify_dend_dag.py: Directed Acyclic Graph definition with imports, tasks and task dependencies
-* dags/sparkify_dend_dimensions_subdag.py: SubDag containing loading of Dimensional tables tasks
+* dags/etl.py: Directed Acyclic Graph definition with imports, tasks and task dependencies
 * imgs/dag.png: DAG visualization
 * plugins/helpers/sql_queries.py: Contains Insert SQL statements
 * plugins/operators/create_tables.sql: Contains SQL Table creations statements
