@@ -5,24 +5,42 @@ from airflow.utils.decorators import apply_defaults
 class LoadFactOperator(BaseOperator):
 
     ui_color = '#F98866'
+    sql_query = """
+        BEGIN;
+        {};
+        INSERT INTO {}
+        {};
+        COMMIT;
+    """
 
     @apply_defaults
     def __init__(self,
-                 redshift_conn_id="",
-                 table="",
-                 sql_stmt="",
-                 *args, **kwargs):
+                 # Define your operators params (with defaults) here
+                 # Example:
+                 conn_id = "",
+                 table = "",
+                 sql_statement = "",
+                 append = False,
+                 **kwargs):
 
-        super(LoadFactOperator, self).__init__(*args, **kwargs)
-
-        self.redshift_conn_id = redshift_conn_id
+        super(LoadFactOperator, self).__init__( **kwargs)
+        # Map params here
+        # Example:
+        self.conn_id = conn_id
         self.table = table
-        self.sql_stmt = sql_stmt
+        self.sql_statement = sql_statement
+        self.append = append
 
     def execute(self, context):
-        redshift = PostgresHook(postgres_conn_id=self.redshift_conn_id)
-        self.log.info(f"Loading fact table {self.table}")
-        sql = """INSERT INTO {} 
-                    {}; 
-                    COMMIT;""".format(self.table, self.sql_stmt)
+        self.log.info('Connecting to Postgres')
+        redshift = PostgresHook(postgres_conn_id = self.conn_id)
+        sql = ""
+        if self.append:
+            sql = LoadFactOperator.sql_query.format("",self.table, self.sql_statement)   
+        else:
+            sql = LoadFactOperator.sql_query.format(f"TRUNCATE TABLE {self.table} ", self.table, self.sql_statement)
+            
+        self.log.info(f"Preparing sql querry {sql }")
+        self.log.info(f"loading fact table {self.table}")
+        
         redshift.run(sql)
