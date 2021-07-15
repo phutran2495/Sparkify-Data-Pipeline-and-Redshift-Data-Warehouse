@@ -3,7 +3,7 @@ A music streaming company, Sparkify, has decided that it is time to introduce mo
 
 They have decided to bring you into the project and expect you to create high grade data pipelines that are dynamic and built from reusable tasks, can be monitored, and allow easy backfills. They have also noted that the data quality plays a big part when analyses are executed on top the data warehouse and want to run tests against their datasets after the ETL steps have been executed to catch any discrepancies in the datasets.
 
-The source data resides in S3 and needs to be processed in Sparkify's data warehouse in Amazon Redshift. The source datasets consist of CSV logs that tell about user activity in the application and JSON metadata about the songs the users listen to.
+The source data resides in S3 and needs to be processed in Sparkify's data warehouse in Amazon Redshift. The source datasets consist of JSON logs that tell about user activity in the application and JSON metadata about the songs the users listen to.
 
 ## Project Setup - to run locally
 
@@ -32,8 +32,7 @@ Port: Enter 5439.
 
 ## Project Strucute
 * README: Current file, holds instructions and documentation of the project
-* dags/sparkify_dend_dag.py: Directed Acyclic Graph definition with imports, tasks and task dependencies
-* dags/sparkify_dend_dimensions_subdag.py: SubDag containing loading of Dimensional tables tasks
+* dags/etl.py: Directed Acyclic Graph definition with imports, tasks and task dependencies
 * imgs/dag.png: DAG visualization
 * plugins/helpers/sql_queries.py: Contains Insert SQL statements
 * plugins/operators/create_tables.sql: Contains SQL Table creations statements
